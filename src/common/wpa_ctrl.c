@@ -135,7 +135,7 @@ try_again:
 		return NULL;
 	}
 	tries++;
-#ifdef ANDROID
+//#ifdef ANDROID
 	/* Set client socket file permissions so that bind() creates the client
 	 * socket with these permissions and there is no need to try to change
 	 * them with chmod() after bind() which would have potential issues with
@@ -147,7 +147,7 @@ try_again:
 	 * operations to allow the response to go through. Those are using the
 	 * no-deference-symlinks version to avoid races. */
 	fchmod(ctrl->s, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
-#endif /* ANDROID */
+//#endif /* ANDROID */
 	if (bind(ctrl->s, (struct sockaddr *) &ctrl->local,
 		    sizeof(ctrl->local)) < 0) {
 		if (errno == EADDRINUSE && tries < 2) {

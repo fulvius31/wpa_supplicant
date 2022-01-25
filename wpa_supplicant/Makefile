@@ -1,5 +1,5 @@
 ifndef CC
-CC=gcc
+CC=/tmp/my-android-toolchain/bin/armv7a-linux-androideabi19-clang
 endif
 
 ifndef CFLAGS
@@ -17,9 +17,10 @@ LIBS_p := $(LIBS)
 endif
 endif
 
-export LIBDIR ?= /usr/local/lib/
-export INCDIR ?= /usr/local/include/
-export BINDIR ?= /usr/local/sbin/
+export LIBDIR ?= /home/fulvius/Downloads/wpa_supplicant-2.9/wpa_supplicant/
+#export LIBDIR ?= /usr/local/lib/
+#export INCDIR ?= /usr/local/include/
+#export BINDIR ?= /usr/local/sbin/
 PKG_CONFIG ?= pkg-config
 
 CFLAGS += $(EXTRA_CFLAGS)
@@ -46,9 +47,9 @@ endif
 
 BINALL=wpa_supplicant wpa_cli
 
-ifndef CONFIG_NO_WPA_PASSPHRASE
-BINALL += wpa_passphrase
-endif
+#ifndef CONFIG_NO_WPA_PASSPHRASE
+#BINALL += wpa_passphrase
+#endif
 
 ALL = $(BINALL)
 ALL += systemd/wpa_supplicant.service
@@ -105,7 +106,7 @@ OBJS += ../src/utils/wpabuf.o
 OBJS += ../src/utils/bitfield.o
 OBJS += op_classes.o
 OBJS += rrm.o
-OBJS_p = wpa_passphrase.o
+#OBJS_p = wpa_passphrase.o
 OBJS_p += ../src/utils/common.o
 OBJS_p += ../src/utils/wpa_debug.o
 OBJS_p += ../src/utils/wpabuf.o
@@ -139,7 +140,8 @@ OBJS_c += ../src/utils/trace.o
 OBJS_priv += ../src/utils/trace.o
 LIBCTRL += ../src/utils/trace.o
 LIBCTRLSO += ../src/utils/trace.c
-LDFLAGS += -rdynamic
+#LDFLAGS += -rdynamic --hash-style=sysv
+LDFLAGS += --hash-style=both
 CFLAGS += -funwind-tables
 ifdef CONFIG_WPA_TRACE_BFD
 CFLAGS += -DPACKAGE="wpa_supplicant" -DWPA_TRACE_BFD
@@ -155,15 +157,15 @@ endif
 OBJS += ../src/utils/$(CONFIG_ELOOP).o
 OBJS_c += ../src/utils/$(CONFIG_ELOOP).o
 
-ifndef CONFIG_OSX
-ifeq ($(CONFIG_ELOOP), eloop)
-# Using glibc < 2.17 requires -lrt for clock_gettime()
-# OS X has an alternate implementation
-LIBS += -lrt
-LIBS_c += -lrt
-LIBS_p += -lrt
-endif
-endif
+#ifndef CONFIG_OSX
+#ifeq ($(CONFIG_ELOOP), eloop)
+## Using glibc < 2.17 requires -lrt for clock_gettime()
+## OS X has an alternate implementation
+#LIBS += -lrt
+#LIBS_c += -lrt
+#LIBS_p += -lrt
+#endif
+#endif
 
 ifdef CONFIG_ELOOP_POLL
 CFLAGS += -DCONFIG_ELOOP_POLL
@@ -1104,7 +1106,8 @@ ifdef TLS_FUNCS
 CFLAGS += -DEAP_TLS_OPENSSL
 OBJS += ../src/crypto/tls_openssl.o
 OBJS += ../src/crypto/tls_openssl_ocsp.o
-LIBS += -lssl
+#LIBS += -lssl
+LIBS += libssl.so
 endif
 OBJS += ../src/crypto/crypto_openssl.o
 OBJS_p += ../src/crypto/crypto_openssl.o
@@ -1114,8 +1117,8 @@ OBJS += ../src/crypto/fips_prf_openssl.o
 endif
 NEED_SHA256=y
 NEED_TLS_PRF_SHA256=y
-LIBS += -lcrypto
-LIBS_p += -lcrypto
+LIBS += libcrypto.so
+LIBS_p += libcrypto.so
 ifdef CONFIG_TLS_ADD_DL
 LIBS += -ldl
 LIBS_p += -ldl
@@ -1628,7 +1631,7 @@ OBJS += dbus/dbus_new_introspect.o
 CFLAGS += -DCONFIG_CTRL_IFACE_DBUS_INTRO
 endif
 CFLAGS += $(DBUS_INCLUDE)
-LIBS += $(DBUS_LIBS)
+LIBS += libdbus.so
 endif
 
 ifdef CONFIG_READLINE
@@ -1911,9 +1914,9 @@ preauth_test: $(OBJS_t2)
 	$(Q)$(LDO) $(LDFLAGS) -o preauth_test $(OBJS_t2) $(LIBS)
 	@$(E) "  LD " $@
 
-wpa_passphrase: $(OBJS_p)
-	$(Q)$(LDO) $(LDFLAGS) -o wpa_passphrase $(OBJS_p) $(LIBS_p) $(LIBS)
-	@$(E) "  LD " $@
+#wpa_passphrase: $(OBJS_p)
+#	$(Q)$(LDO) $(LDFLAGS) -o wpa_passphrase $(OBJS_p) $(LIBS_p) $(LIBS)
+#	@$(E) "  LD " $@
 
 wpa_cli: $(OBJS_c)
 	$(Q)$(LDO) $(LDFLAGS) -o wpa_cli $(OBJS_c) $(LIBS_c)
@@ -2003,14 +2006,14 @@ wpa_supplicant.exe: wpa_supplicant
 	mv -f $< $@
 wpa_cli.exe: wpa_cli
 	mv -f $< $@
-wpa_passphrase.exe: wpa_passphrase
-	mv -f $< $@
+#wpa_passphrase.exe: wpa_passphrase
+#	mv -f $< $@
 win_if_list.exe: win_if_list
 	mv -f $< $@
 eapol_test.exe: eapol_test
 	mv -f $< $@
 
-WINALL=wpa_supplicant.exe wpa_cli.exe wpa_passphrase.exe win_if_list.exe
+WINALL=wpa_supplicant.exe wpa_cli.exe  win_if_list.exe
 
 windows-bin: $(WINALL)
 	$(STRIP) $(WINALL)

@@ -706,7 +706,7 @@ wpa_supplicant_ctrl_iface_init(struct wpa_supplicant *wpa_s)
 	if (wpa_s->conf->ctrl_interface == NULL)
 		return priv;
 
-#ifdef ANDROID
+//#ifdef ANDROID
 	if (wpa_s->global->params.ctrl_interface) {
 		int same = 0;
 
@@ -751,7 +751,7 @@ wpa_supplicant_ctrl_iface_init(struct wpa_supplicant *wpa_s)
 			return priv;
 		}
 	}
-#endif /* ANDROID */
+//#endif /* ANDROID */
 
 	if (wpas_ctrl_iface_open_sock(wpa_s, priv) < 0) {
 		os_free(priv);

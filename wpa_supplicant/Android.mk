@@ -4,8 +4,58 @@
 # This software may be distributed under the terms of the BSD license.
 # See README for more details.
 #
-
 LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_MODULE := libc
+LOCAL_SRC_FILES := libc.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libcutils
+LOCAL_SRC_FILES := libcutils.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := liblog
+LOCAL_SRC_FILES := liblog.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libcrypto
+LOCAL_SRC_FILES := libcrypto.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libssl
+LOCAL_SRC_FILES := libssl.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libkeystore-engine
+LOCAL_SRC_FILES := libkeystore-engine.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libkeystore_binder
+LOCAL_SRC_FILES := libkeystore_binder.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libnl
+LOCAL_SRC_FILES := libnl.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libnl-3
+LOCAL_SRC_FILES := libnl-3.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libnl-genl-3
+LOCAL_SRC_FILES := libnl-genl-3.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+#LOCAL_PATH := $(call my-dir)
 PKG_CONFIG ?= pkg-config
 
 ifneq ($(BOARD_WPA_SUPPLICANT_DRIVER),)
@@ -74,9 +124,9 @@ INCLUDES += $(LOCAL_PATH)/src/wps
 INCLUDES += system/security/keystore/include
 ifdef CONFIG_DRIVER_NL80211
 ifneq ($(wildcard external/libnl),)
-INCLUDES += external/libnl/include
+INCLUDES +=  $(LOCAL_PATH)/external/libnl/include
 else
-INCLUDES += external/libnl-headers
+INCLUDES += $(LOCAL_PATH)/external/libnl-headers
 endif
 endif
 
@@ -1709,7 +1759,7 @@ ifdef CONFIG_DRIVER_NL80211
 ifneq ($(wildcard external/libnl),)
 LOCAL_SHARED_LIBRARIES += libnl
 else
-LOCAL_STATIC_LIBRARIES += libnl_2
+LOCAL_STATIC_LIBRARIES += libnl
 endif
 endif
 LOCAL_CFLAGS := $(L_CFLAGS)

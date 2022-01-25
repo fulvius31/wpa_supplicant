@@ -23,7 +23,7 @@
 #include "common/version.h"
 #include "common/ieee802_11_defs.h"
 #ifdef ANDROID
-#include <cutils/properties.h>
+#include "cutils/properties.h"
 #endif /* ANDROID */
 
 

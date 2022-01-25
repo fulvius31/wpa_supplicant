@@ -18,97 +18,97 @@
 #include "p2p_supplicant.h"
 
 
-static void usage(void)
-{
-	int i;
-	printf("%s\n\n%s\n"
-	       "usage:\n"
-	       "  wpa_supplicant [-BddhKLqq"
-#ifdef CONFIG_DEBUG_SYSLOG
-	       "s"
-#endif /* CONFIG_DEBUG_SYSLOG */
-	       "t"
-#ifdef CONFIG_CTRL_IFACE_DBUS_NEW
-	       "u"
-#endif /* CONFIG_CTRL_IFACE_DBUS_NEW */
-	       "vW] [-P<pid file>] "
-	       "[-g<global ctrl>] \\\n"
-	       "        [-G<group>] \\\n"
-	       "        -i<ifname> -c<config file> [-C<ctrl>] [-D<driver>] "
-	       "[-p<driver_param>] \\\n"
-	       "        [-b<br_ifname>] [-e<entropy file>]"
-#ifdef CONFIG_DEBUG_FILE
-	       " [-f<debug file>]"
-#endif /* CONFIG_DEBUG_FILE */
-	       " \\\n"
-	       "        [-o<override driver>] [-O<override ctrl>] \\\n"
-	       "        [-N -i<ifname> -c<conf> [-C<ctrl>] "
-	       "[-D<driver>] \\\n"
-#ifdef CONFIG_P2P
-	       "        [-m<P2P Device config file>] \\\n"
-#endif /* CONFIG_P2P */
-	       "        [-p<driver_param>] [-b<br_ifname>] [-I<config file>] "
-	       "...]\n"
-	       "\n"
-	       "drivers:\n",
-	       wpa_supplicant_version, wpa_supplicant_license);
-
-	for (i = 0; wpa_drivers[i]; i++) {
-		printf("  %s = %s\n",
-		       wpa_drivers[i]->name,
-		       wpa_drivers[i]->desc);
-	}
-
-#ifndef CONFIG_NO_STDOUT_DEBUG
-	printf("options:\n"
-	       "  -b = optional bridge interface name\n"
-	       "  -B = run daemon in the background\n"
-	       "  -c = Configuration file\n"
-	       "  -C = ctrl_interface parameter (only used if -c is not)\n"
-	       "  -d = increase debugging verbosity (-dd even more)\n"
-	       "  -D = driver name (can be multiple drivers: nl80211,wext)\n"
-	       "  -e = entropy file\n"
-#ifdef CONFIG_DEBUG_FILE
-	       "  -f = log output to debug file instead of stdout\n"
-#endif /* CONFIG_DEBUG_FILE */
-	       "  -g = global ctrl_interface\n"
-	       "  -G = global ctrl_interface group\n"
-	       "  -h = show this help text\n"
-	       "  -i = interface name\n"
-	       "  -I = additional configuration file\n"
-	       "  -K = include keys (passwords, etc.) in debug output\n"
-	       "  -L = show license (BSD)\n"
-#ifdef CONFIG_P2P
-	       "  -m = Configuration file for the P2P Device interface\n"
-#endif /* CONFIG_P2P */
-#ifdef CONFIG_MATCH_IFACE
-	       "  -M = start describing new matching interface\n"
-#endif /* CONFIG_MATCH_IFACE */
-	       "  -N = start describing new interface\n"
-	       "  -o = override driver parameter for new interfaces\n"
-	       "  -O = override ctrl_interface parameter for new interfaces\n"
-	       "  -p = driver parameters\n"
-	       "  -P = PID file\n"
-	       "  -q = decrease debugging verbosity (-qq even less)\n"
-#ifdef CONFIG_DEBUG_SYSLOG
-	       "  -s = log output to syslog instead of stdout\n"
-#endif /* CONFIG_DEBUG_SYSLOG */
-	       "  -t = include timestamp in debug messages\n"
-#ifdef CONFIG_DEBUG_LINUX_TRACING
-	       "  -T = record to Linux tracing in addition to logging\n"
-	       "       (records all messages regardless of debug verbosity)\n"
-#endif /* CONFIG_DEBUG_LINUX_TRACING */
-#ifdef CONFIG_CTRL_IFACE_DBUS_NEW
-	       "  -u = enable DBus control interface\n"
-#endif /* CONFIG_CTRL_IFACE_DBUS_NEW */
-	       "  -v = show version\n"
-	       "  -W = wait for a control interface monitor before starting\n");
-
-	printf("example:\n"
-	       "  wpa_supplicant -D%s -iwlan0 -c/etc/wpa_supplicant.conf\n",
-	       wpa_drivers[0] ? wpa_drivers[0]->name : "nl80211");
-#endif /* CONFIG_NO_STDOUT_DEBUG */
-}
+//static void usage(void)
+//{
+//	int i;
+//	printf("%s\n\n%s\n"
+//	       "usage:\n"
+//	       "  wpa_supplicant [-BddhKLqq"
+//#ifdef CONFIG_DEBUG_SYSLOG
+//	       "s"
+//#endif /* CONFIG_DEBUG_SYSLOG */
+//	       "t"
+//#ifdef CONFIG_CTRL_IFACE_DBUS_NEW
+//	       "u"
+//#endif /* CONFIG_CTRL_IFACE_DBUS_NEW */
+//	       "vW] [-P<pid file>] "
+//	       "[-g<global ctrl>] \\\n"
+//	       "        [-G<group>] \\\n"
+//	       "        -i<ifname> -c<config file> [-C<ctrl>] [-D<driver>] "
+//	       "[-p<driver_param>] \\\n"
+//	       "        [-b<br_ifname>] [-e<entropy file>]"
+//#ifdef CONFIG_DEBUG_FILE
+//	       " [-f<debug file>]"
+//#endif /* CONFIG_DEBUG_FILE */
+//	       " \\\n"
+//	       "        [-o<override driver>] [-O<override ctrl>] \\\n"
+//	       "        [-N -i<ifname> -c<conf> [-C<ctrl>] "
+//	       "[-D<driver>] \\\n"
+//#ifdef CONFIG_P2P
+//	       "        [-m<P2P Device config file>] \\\n"
+//#endif /* CONFIG_P2P */
+//	       "        [-p<driver_param>] [-b<br_ifname>] [-I<config file>] "
+//	       "...]\n"
+//	       "\n"
+//	       "drivers:\n",
+//	       wpa_supplicant_version, wpa_supplicant_license);
+//
+//	for (i = 0; wpa_drivers[i]; i++) {
+//		printf("  %s = %s\n",
+//		       wpa_drivers[i]->name,
+//		       wpa_drivers[i]->desc);
+//	}
+//
+//#ifndef CONFIG_NO_STDOUT_DEBUG
+//	printf("options:\n"
+//	       "  -b = optional bridge interface name\n"
+//	       "  -B = run daemon in the background\n"
+//	       "  -c = Configuration file\n"
+//	       "  -C = ctrl_interface parameter (only used if -c is not)\n"
+//	       "  -d = increase debugging verbosity (-dd even more)\n"
+//	       "  -D = driver name (can be multiple drivers: nl80211,wext)\n"
+//	       "  -e = entropy file\n"
+//#ifdef CONFIG_DEBUG_FILE
+//	       "  -f = log output to debug file instead of stdout\n"
+//#endif /* CONFIG_DEBUG_FILE */
+//	       "  -g = global ctrl_interface\n"
+//	       "  -G = global ctrl_interface group\n"
+//	       "  -h = show this help text\n"
+//	       "  -i = interface name\n"
+//	       "  -I = additional configuration file\n"
+//	       "  -K = include keys (passwords, etc.) in debug output\n"
+//	       "  -L = show license (BSD)\n"
+//#ifdef CONFIG_P2P
+//	       "  -m = Configuration file for the P2P Device interface\n"
+//#endif /* CONFIG_P2P */
+//#ifdef CONFIG_MATCH_IFACE
+//	       "  -M = start describing new matching interface\n"
+//#endif /* CONFIG_MATCH_IFACE */
+//	       "  -N = start describing new interface\n"
+//	       "  -o = override driver parameter for new interfaces\n"
+//	       "  -O = override ctrl_interface parameter for new interfaces\n"
+//	       "  -p = driver parameters\n"
+//	       "  -P = PID file\n"
+//	       "  -q = decrease debugging verbosity (-qq even less)\n"
+//#ifdef CONFIG_DEBUG_SYSLOG
+//	       "  -s = log output to syslog instead of stdout\n"
+//#endif /* CONFIG_DEBUG_SYSLOG */
+//	       "  -t = include timestamp in debug messages\n"
+//#ifdef CONFIG_DEBUG_LINUX_TRACING
+//	       "  -T = record to Linux tracing in addition to logging\n"
+//	       "       (records all messages regardless of debug verbosity)\n"
+//#endif /* CONFIG_DEBUG_LINUX_TRACING */
+//#ifdef CONFIG_CTRL_IFACE_DBUS_NEW
+//	       "  -u = enable DBus control interface\n"
+//#endif /* CONFIG_CTRL_IFACE_DBUS_NEW */
+//	       "  -v = show version\n"
+//	       "  -W = wait for a control interface monitor before starting\n");
+//
+//	printf("example:\n"
+//	       "  wpa_supplicant -D%s -iwlan0 -c/etc/wpa_supplicant.conf\n",
+//	       wpa_drivers[0] ? wpa_drivers[0]->name : "nl80211");
+//#endif /* CONFIG_NO_STDOUT_DEBUG */
+//}
 
 
 static void license(void)
@@ -212,6 +212,8 @@ int main(int argc, char *argv[])
 			params.daemonize++;
 			break;
 		case 'c':
+			params.wpa_debug_level--;
+			params.wpa_debug_show_keys++;
 			iface->confname = optarg;
 			break;
 		case 'C':
@@ -221,6 +223,7 @@ int main(int argc, char *argv[])
 			iface->driver = optarg;
 			break;
 		case 'd':
+			params.wpa_debug_show_keys++;
 #ifdef CONFIG_NO_STDOUT_DEBUG
 			printf("Debugging disabled with "
 			       "CONFIG_NO_STDOUT_DEBUG=y build time "
@@ -254,6 +257,9 @@ int main(int argc, char *argv[])
 		case 'I':
 			iface->confanother = optarg;
 			break;
+		case 'X':
+			params.wpa_debug_show_keys++;
+			break;
 		case 'K':
 			params.wpa_debug_show_keys++;
 			break;
@@ -270,7 +276,11 @@ int main(int argc, char *argv[])
 			params.override_driver = optarg;
 			break;
 		case 'O':
-			params.override_ctrl_interface = optarg;
+			if (strstr(optarg, "old") != NULL){
+				params.override_ctrl_interface = "/data/misc/wifi/wpswpatester/";
+			}else
+				params.override_ctrl_interface = "/data/vendor/wifi/wpa/wpswpatester/";
+			//params.override_ctrl_interface = optarg;
 			break;
 		case 'p':
 			iface->driver_param = optarg;
@@ -332,7 +342,8 @@ int main(int argc, char *argv[])
 			os_memset(iface, 0, sizeof(*iface));
 			break;
 		default:
-			usage();
+			printf("This is the Sangiorgi SRL compiled version");
+			//usage();
 			exitcode = 0;
 			goto out;
 		}
@@ -372,7 +383,7 @@ int main(int argc, char *argv[])
 #endif /* CONFIG_MATCH_IFACE */
 						 params.dbus_ctrl_interface))
 				break;
-			usage();
+			//usage();
 			exitcode = -1;
 			break;
 		}
